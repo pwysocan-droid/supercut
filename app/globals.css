@@ -1,0 +1,536 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #F4F2EC;
+  --ink: #0A0A08;
+  --accent: #E8280A;
+  --surface: #FFFFFF;
+  --font: 'IBM Plex Mono', monospace;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 12px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Shell ───────────────────────────────────────────── */
+
+.app-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--ink);
+  overflow: hidden;
+}
+
+/* ── Top bar ─────────────────────────────────────────── */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--ink);
+  flex-shrink: 0;
+}
+
+/* ── Label utility ───────────────────────────────────── */
+
+.label {
+  font-family: var(--font);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ── Main two-column layout ──────────────────────────── */
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Clip panel (left) ───────────────────────────────── */
+
+.clip-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--ink);
+  overflow: hidden;
+}
+
+/* ── Drop zone ───────────────────────────────────────── */
+
+.dropzone-wrapper {
+  padding: 16px;
+  border-bottom: 1px solid var(--ink);
+  flex-shrink: 0;
+}
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 20px;
+  border: 1px dashed var(--ink);
+  cursor: pointer;
+  transition: border-color 0.1s, background 0.1s, color 0.1s;
+}
+
+.dropzone:hover,
+.dropzone--active {
+  border-color: var(--accent);
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.dropzone--active .dropzone-icon {
+  stroke: var(--accent);
+}
+
+.dropzone-icon {
+  stroke: var(--ink);
+  opacity: 0.45;
+  transition: stroke 0.1s;
+}
+
+.dropzone:hover .dropzone-icon {
+  stroke: var(--accent);
+  opacity: 1;
+}
+
+/* ── Clip list ───────────────────────────────────────── */
+
+.clip-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ── Clip card ───────────────────────────────────────── */
+
+.clip-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(10, 10, 8, 0.12);
+  background: var(--surface);
+  cursor: grab;
+  user-select: none;
+}
+
+.clip-card:hover {
+  background: #f9f8f4;
+}
+
+.clip-card:active {
+  cursor: grabbing;
+}
+
+.clip-card-num {
+  color: var(--accent);
+  min-width: 20px;
+  flex-shrink: 0;
+}
+
+.clip-card-thumb {
+  width: 80px;
+  height: 45px;
+  background: var(--ink);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.clip-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.clip-card-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #1a1a18;
+}
+
+.clip-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.clip-card-name {
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clip-card-meta {
+  color: rgba(10, 10, 8, 0.45);
+}
+
+.clip-card--skipped {
+  opacity: 0.5;
+}
+
+.clip-card-num--selected {
+  color: var(--accent);
+}
+
+.clip-card-score {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.clip-card-score-value {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.clip-card-reason {
+  color: rgba(10, 10, 8, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 8px;
+}
+
+.clip-card-remove {
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(10, 10, 8, 0.25);
+  padding: 2px 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  flex-shrink: 0;
+  transition: color 0.1s;
+}
+
+.clip-card-remove:hover {
+  color: var(--accent);
+}
+
+/* ── Sidebar (right) ─────────────────────────────────── */
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-section-header {
+  color: rgba(10, 10, 8, 0.45);
+}
+
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid var(--ink);
+  flex-shrink: 0;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid var(--ink);
+}
+
+/* ── Intent ──────────────────────────────────────────── */
+
+.intent-input {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 76px;
+  outline: none;
+  line-height: 1.5;
+}
+
+.intent-input:focus {
+  border-color: var(--accent);
+}
+
+.intent-input::placeholder {
+  color: rgba(10, 10, 8, 0.3);
+}
+
+/* ── Tag pills ───────────────────────────────────────── */
+
+.tag-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-pill {
+  padding: 5px 8px;
+  border: 1px solid rgba(10, 10, 8, 0.35);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+
+.tag-pill:hover {
+  background: var(--ink);
+  color: var(--surface);
+  border-color: var(--ink);
+}
+
+/* ── Duration ────────────────────────────────────────── */
+
+.duration-row {
+  display: flex;
+}
+
+.duration-input {
+  flex: 1;
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  border-right: none;
+  padding: 8px 10px;
+  outline: none;
+}
+
+.duration-input:focus {
+  border-color: var(--accent);
+}
+
+.duration-unit {
+  padding: 8px 10px;
+  font-family: var(--font);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.duration-unit:focus {
+  border-color: var(--accent);
+}
+
+/* ── Progress steps ──────────────────────────────────── */
+
+.progress-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.25;
+}
+
+.progress-step--active {
+  opacity: 1;
+}
+
+.progress-step--done {
+  opacity: 0.55;
+}
+
+.progress-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink);
+  flex-shrink: 0;
+}
+
+.progress-dot--active {
+  background: var(--accent);
+}
+
+.progress-pct {
+  margin-left: auto;
+  color: var(--accent);
+}
+
+.error-msg {
+  color: var(--accent);
+}
+
+/* ── Intensity slider ────────────────────────────────── */
+
+.intensity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.intensity-value {
+  color: var(--accent);
+}
+
+.intensity-slider {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  height: 2px;
+  background: var(--ink);
+  outline: none;
+  cursor: pointer;
+}
+
+.intensity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.intensity-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.intensity-labels {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(10, 10, 8, 0.4);
+  margin-top: 4px;
+}
+
+/* ── Reference upload ────────────────────────────────── */
+
+.ref-upload-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px dashed rgba(10, 10, 8, 0.35);
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  color: rgba(10, 10, 8, 0.5);
+  transition: border-color 0.1s, color 0.1s;
+}
+
+.ref-upload-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ref-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--ink);
+  background: var(--surface);
+}
+
+.ref-file-name {
+  flex: 1;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ref-file-meta {
+  color: rgba(10, 10, 8, 0.45);
+  flex-shrink: 0;
+}
+
+.ref-file-clear {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(10, 10, 8, 0.35);
+  padding: 0;
+  transition: color 0.1s;
+}
+
+.ref-file-clear:hover {
+  color: var(--accent);
+}
+
+/* ── Buttons ─────────────────────────────────────────── */
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  background: var(--ink);
+  color: var(--surface);
+  font-family: var(--font);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  border: 1px solid var(--ink);
+  text-decoration: none;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
