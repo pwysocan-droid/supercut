@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///Users/paul_wysocan/Documents/supercut/app/api/status/%5BjobId%5D/route.ts"],"sourcesContent":["import { NextRequest, NextResponse } from 'next/server';\n\nexport const dynamic = 'force-dynamic';\n\nexport async function GET(\n  _req: NextRequest,\n  { params }: { params: Promise<{ jobId: string }> }\n) {\n  const railwayUrl = process.env.RAILWAY_URL;\n  if (!railwayUrl) {\n    return NextResponse.json({ error: 'RAILWAY_URL not configured' }, { status: 500 });\n  }\n\n  const { jobId } = await params;\n  const res = await fetch(`${railwayUrl}/status/${jobId}`);\n  const data = await res.json();\n  return NextResponse.json(data, { status: res.status });\n}\n"],"names":["dynamic","GET","_req","params","railwayUrl","process","env","RAILWAY_URL","json","error","status","jobId","res","fetch","data"],"mappings":";;;;;;AAAA;;AAEO,MAAMA,UAAU;AAEhB,eAAeC,IACpBC,IAAiB,EACjB,EAAEC,MAAM,EAA0C;IAElD,MAAMC,aAAaC,QAAQC,GAAG,CAACC,WAAW;IAC1C,IAAI,CAACH,YAAY;QACf,OAAO,gJAAY,CAACI,IAAI,CAAC;YAAEC,OAAO;QAA6B,GAAG;YAAEC,QAAQ;QAAI;IAClF;IAEA,MAAM,EAAEC,KAAK,EAAE,GAAG,MAAMR;IACxB,MAAMS,MAAM,MAAMC,MAAM,GAAGT,WAAW,QAAQ,EAAEO,OAAO;IACvD,MAAMG,OAAO,MAAMF,IAAIJ,IAAI;IAC3B,OAAO,gJAAY,CAACA,IAAI,CAACM,MAAM;QAAEJ,QAAQE,IAAIF,MAAM;IAAC;AACtD"}}]
-}

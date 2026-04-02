@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+railway/node_modules/
+
+# build output
+.next/
+
+# env files (contain secrets)
+.env.local
+.env*.local
+
+# OS
+.DS_Store
+
+# uploads
+/tmp/
