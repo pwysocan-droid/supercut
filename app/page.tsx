@@ -54,7 +54,7 @@ export default function Page() {
     stopPolling();
     pollRef.current = setInterval(async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_RAILWAY_URL}/status/${id}`);
+        const res = await fetch(`/api/status/${id}`);
         const data: JobStatus = await res.json();
         setStatus(data);
         if (data.step === 'complete' || data.step === 'error') stopPolling();
@@ -78,8 +78,7 @@ export default function Page() {
       formData.append('duration', String(durationSeconds));
       formData.append('intensity', String(intensity));
 
-      const railwayUrl = process.env.NEXT_PUBLIC_RAILWAY_URL;
-      const res = await fetch(`${railwayUrl}/upload`, { method: 'POST', body: formData });
+      const res = await fetch('/api/upload', { method: 'POST', body: formData });
       if (!res.ok) throw new Error('Upload failed');
 
       const { jobId: id } = await res.json();

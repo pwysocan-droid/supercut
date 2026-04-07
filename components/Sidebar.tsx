@@ -169,7 +169,7 @@ export default function Sidebar({
       {status?.step === 'complete' && jobId && (
         <>
           <section className="sidebar-section">
-            <a className="btn" href={`${process.env.NEXT_PUBLIC_RAILWAY_URL}/download/${jobId}`} download="supercut.mp4">
+            <a className="btn" href={`/api/download/${jobId}`} download="supercut.mp4">
               <span>
                 supercut.mp4
                 {status.outputSize ? ` — ${formatSize(status.outputSize)}` : ''}
